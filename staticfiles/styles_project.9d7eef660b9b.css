@@ -1,0 +1,181 @@
+body {
+    font-family: 'Inknut Antiqua', serif;
+    background-color: #f3f0e5;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    padding: 10px 10px 10px 35px;
+    background-color: #f3f0e5;
+}
+
+.toggle-button {
+    display: none;
+    font-size: 2.5em;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #b13d3d;
+    margin-right: 20px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    font-size: 3em;
+    color: #b13d3d;
+    transition: color 0.3s;
+    margin: 20px;
+}
+
+.navbar-links a:nth-child(1) {
+    color: #81161C;
+}
+
+.navbar-links a:nth-child(2) {
+    color: #CC1D33;
+}
+
+.navbar-links a:nth-child(3) {
+    color: #c96a4d;
+}
+
+.navbar-links a:nth-child(4) {
+    color: #d68a4d;
+}
+
+.navbar-links a:hover {
+    color: #000;
+}
+
+.projects {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 150px;
+    justify-content: flex-start;
+    /* Distribute space between items */
+    align-items: center;
+}
+
+#project {
+    flex: 1 1 calc((100% - 60px) / 4);
+    /* Four items per row with space in between */
+    aspect-ratio: 5 / 3;
+    /* Maintain the 5:3 aspect ratio */
+    border: 1px solid black;
+    border-radius: 25px;
+    max-width: calc((100% - 60px) / 4);
+    /* Ensure the max width of each project */
+    min-width: 200px;
+    /* Ensure a minimum width */
+}
+
+/* Adjust layout for smaller screens */
+@media (max-width: 1559px) {
+    #project {
+        flex: 1 1 calc((100% - 40px) / 3);
+        /* Three items per row */
+        max-width: calc((100% - 40px) / 3);
+    }
+}
+
+@media (max-width: 1083px) {
+    #project {
+        flex: 1 1 calc((100% - 20px) / 2);
+        /* Two items per row */
+        max-width: calc((100% - 20px) / 2);
+    }
+}
+
+@media (max-width: 720px) {
+    #project {
+        flex: 1 1 100%;
+        /* One item per row */
+        max-width: 100%;
+    }
+}
+
+/* .projects {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 150px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#project {
+    flex-grow: 1;
+    height: 300px;
+    width: 500px;
+    min-height: 200px;
+    max-width: 500px;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+
+*/
+@media (max-width: 1023px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .toggle-button {
+        display: block;
+    }
+
+    .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar-links a {
+        margin: 10px;
+        width: auto;
+        text-align: right;
+        padding-right: 15px;
+        margin-right: 15px;
+    }
+
+    .navbar-links.active {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .navbar-links.active a {
+        height: 1em;
+        font-size: 2em;
+    }
+
+    .projects {
+        flex-direction: column;
+
+        margin-left: 10vw;
+        margin-right: 10vw;
+        width: 80vw;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #project {
+        min-width: 80vw;
+        min-height: 80vw;
+    }
+}

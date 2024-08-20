@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dan's website :)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3-legend.susielu.com/d3-legend.min.js"></script>
+
+</head>
+
+<body>
+    <div class="navbar">
+        <button class="toggle-button">☰</button>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'projects' %}">Projects</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'cv' %}">Resume</a>
+        </div>
+    </div>
+    <div class="containerquote">
+        <div class="mainpart">
+            <div class="text">
+                <p class="quote">This is <b><a href="{% url 'about' %}">my</a></b> portofolio website. If you are interested, please reach out
+                    by email.</p>
+            </div>
+            <div class="buttons">
+                <button id="downloadBtn">Download Resume</button>
+                <button class="tooltip cute-button" onclick="myFunction()" onmouseout="outFunc()">
+                    <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>danvas011@gmail.com</button>
+            </div>
+        </div>
+        <div class="responsive-div">
+            <p>I made some web apps for you to be able to interact with the <b><a href="{% url 'projects' %}">projects</a></b> I've published.<br> <br>Below you can find an illustration from my project about the <b><a href="{% url 'alegeri' %}">2019 Presidenial Election</a></b>, it is currently the project I've spent the most time on and the inspiration for this website.</p>
+        </div>
+        <div id="map"></div>
+    </div>
+    <div class="footer">
+        
+        <a target="_blank" href="https://www.linkedin.com/in/dan-vasile-5279b31ba/"><img src="{% static '/data/linkedin.png' %}" alt="LinkedIn"></a>
+        <a target="_blank" href="mailto:danvas011@gmail.com"><img src="{% static '/data/gmail.png' %}" alt="Gmail"></a>
+        <a target="_blank" href="https://github.com/moonspaish"><img src="{% static '/data/github.png' %}" . alt="GitHub"></a>
+    </div>
+    
+</body>
+<script src="{% static 'script.js' %}"></script>
+
+</html>

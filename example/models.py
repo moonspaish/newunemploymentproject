@@ -1,0 +1,71 @@
+from django.db import models
+CANDIDATE_CHOICES = [
+    ("", "Chosen candidate"),
+    ("Klaus-Werner Iohannis", "Klaus-Werner Iohannis"),
+    ("Theodor Paleologu", "Theodor Paleologu"),
+    ("Ilie-Dan Barna", "Ilie-Dan Barna"),
+    ("Hunor Kelemen", "Hunor Kelemen"),
+    ("Vasilica-Viorica Dancilă", "Vasilica-Viorica Dancilă"),
+    ("Cătălin-Sorin Ivan", "Cătălin-Sorin Ivan"),
+    ("Ninel Peia", "Ninel Peia"),
+    ("Sebastian-Constantin Popescu", "Sebastian-Constantin Popescu"),
+    ("John-Ion Banu", "John-Ion Banu"),
+    ("Mircea Diaconu", "Mircea Diaconu"),
+    ("Bogdan-Dragoș-Aureliu Marian-Stanoevici", "Bogdan-Dragoș-Aureliu Marian-Stanoevici"),
+    ("Ramona-Ioana Bruynseels", "Ramona-Ioana Bruynseels"),
+    ("Viorel Cataramă", "Viorel Cataramă"),
+    ("Alexandru Cumpănașu", "Alexandru Cumpănașu"),
+]
+
+COUNTY_CHOICES = [
+    ("", "Select your county"),
+    ("alba", "Alba"),
+    ("arad", "Arad"),
+    ("arges", "Argeș"),
+    ("bacau", "Bacău"),
+    ("bihor", "Bihor"),
+    ("bistritanasaud", "Bistrița-Năsăud"),
+    ("botosani", "Botoșani"),
+    ("brasov", "Brașov"),
+    ("braila", "Brăila"),
+    ("bucuresti", "București"),
+    ("buzau", "Buzău"),
+    ("carasseverin", "Caraș-Severin"),
+    ("cluj", "Cluj"),
+    ("constanta", "Constanța"),
+    ("covasna", "Covasna"),
+    ("calarasi", "Călărași"),
+    ("dolj", "Dolj"),
+    ("dambovita", "Dâmbovița"),
+    ("galati", "Galați"),
+    ("giurgiu", "Giurgiu"),
+    ("gorj", "Gorj"),
+    ("harghita", "Harghita"),
+    ("hunedoara", "Hunedoara"),
+    ("ialomita", "Ialomița"),
+    ("iasi", "Iași"),
+    ("ilfov", "Ilfov"),
+    ("maramures", "Maramureș"),
+    ("mehedinti", "Mehedinți"),
+    ("mures", "Mureș"),
+    ("neamt", "Neamț"),
+    ("olt", "Olt"),
+    ("prahova", "Prahova"),
+    ("satumare", "Satu Mare"),
+    ("sibiu", "Sibiu"),
+    ("suceava", "Suceava"),
+    ("salaj", "Sălaj"),
+    ("teleorman", "Teleorman"),
+    ("timis", "Timiș"),
+    ("tulcea", "Tulcea"),
+    ("vaslui", "Vaslui"),
+    ("vrancea", "Vrancea"),
+    ("valcea", "Vâlcea"),
+]
+class Vote(models.Model):
+    name = models.CharField(max_length=100)
+    choice = models.CharField(max_length=100, choices=CANDIDATE_CHOICES)
+    county = models.CharField(max_length=100, choices=COUNTY_CHOICES)
+
+    def __str__(self):
+        return self.name

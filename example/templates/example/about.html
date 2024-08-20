@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dan's website :)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'styleabout.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <button class="toggle-button">☰</button>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'projects' %}">Projects</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href={% url 'cv' %}>Resume</a>
+        </div>
+    </div>
+    <div class="about">
+        <h1>
+            About me
+        </h1>
+        <p>I graduated in July 2023. Most of my early experience lies in exploring data with <skills>Python and Pandas
+            </skills> on a variety of datasets.
+        </p>
+        <p>I shifted my focus towards learning data science and machine learning. But I felt one dimensional and stuck in a notebook. Feeling strongly that I miss a lot of knowledge I ventured towards <skills>SQL, Power
+                BI,
+                Django and D3</skills> to be a more rounded programmer and to establish stronger building blocks for my future.
+        </p>
+        <p>I am currently looking for job opportunities. I am willing to work, and more importantly to learn and I'm
+            very passionate. If you want to get in touch you can do so by email at <email>danvas011@gmail.com</email>
+        </p>
+    </div>
+    
+</body>
+<script src="{% static 'script2.js' %}"></script>
+</html>

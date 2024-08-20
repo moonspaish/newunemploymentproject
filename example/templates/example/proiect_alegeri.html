@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dan's website :)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles_alegeri.css' %}">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3-legend.susielu.com/d3-legend.min.js"></script>
+
+</head>
+
+<body>
+    <div class="navbar">
+        <button class="toggle-button">☰</button>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'projects' %}">Projects</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'cv' %}">Resume</a>
+        </div>
+    </div>
+    <select id="countyDropdown"></select>
+    <div class="mainbody">
+    
+    
+    <div id="chart"></div>
+    <div id="map"></div>
+    </div>
+    <div class="project-text">
+        <h2>What inspired me to do this project</h2> 
+        <p><a href="https://ro.wikipedia.org/wiki/Alegeri_preziden%C8%9Biale_%C3%AEn_Rom%C3%A2nia,_2019" target="_blank">This</a> is the source of it all, a wikipedia article I've stumbled upon while looking at past elections on wikipedia. The map in particular peaked my interest, I knew for certain it cannot be easy to create something like this, and so began quite the journey where with a goal in mind I've learned quite a lot.</p>
+        <img src="{% static 'data/wiki.png' %}">
+        <p>After I've set my goal, the next step was attempting to find:</p>
+        <ul>
+            <li>Data with the election results</li>
+            <li>Data with the boundries of the counties and UATs as polygons</li>
+            <li>Any similar projects I can learn from</li>
+            <li>Documentation for how to create the maps</li>
+        </ul>
+        <h2>The resource that helped me the most</h2> 
+        <p> Raluca Nicola's <a href="https://raluca-nicola.net/colors-of-romania" target="_blank">project</a> about the results of the 2019 European Parliament results in Romania helped me tremendously, it showed me most of the steps required, taught me how to use the data, what needed to be done and in what order. I really owe a lot of thanks to Raluca for publishing her project. </p>
+        <img src="{% static 'data/RalucaNicola.png' %}">
+        <h2>The code, the data and the process</h2>
+        <p>Everything is posted on github <a href="https://github.com/moonspaish/presidential-election-plotting" target="_blank">here</a>. The entire project from github relies only on python and different libraries for handling and illustrating data and I think it is a useful resource for anyone who is looking into similar topics especially since my approach avoided GIS software, thus creating less friction for anyone interested.</p>
+        {% comment %} <p>{% lorem 5 b random %}</p> {% endcomment %}
+    </div>
+</body>
+<script src="{% static 'proiect_alegeri.js' %}"></script>
+
+</html>

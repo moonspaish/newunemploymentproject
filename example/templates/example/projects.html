@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dan's website :)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Signika:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles_project.css' %}">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3-legend.susielu.com/d3-legend.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="navbar">
+        <button class="toggle-button">☰</button>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'projects' %}">Projects</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'cv' %}">Resume</a>
+        </div>
+    </div>
+    <div class='projects'>
+        <a href="{% url 'alegeri' %}" id='project'><div><img src="{% static '/data/alegeri.png' %}" alt="Romania 2019 Presidential Election"></div><div><p>2019 Romanian presidential election analysis</p></div></a> 
+        <a href="{% url 'vote' %}" id='project'><div><img src="{% static '/data/postgresql.png' %}" alt="Voting App"></div><div><p>Voting app</p></div></a> 
+        <a href="{% url 'unemployment' %}" id='project'><div><img src="{% static '/data/govro.png' %}" alt="Unemployment data analysis"></div><div><p>Unemployment data cleaning and analysis</p></div></a> 
+        <a href="" id='project'><div></div><div></div></a>
+        <a href="" id='project'><div></div><div></div></a>
+        <a href="" id='project'><div></div><div></div></a>
+        <a href="" id='project'><div></div><div></div></a>
+        <a href="" id='project'><div></div><div></div></a>
+        <a href="" id='project'><div></div><div></div></a>
+        <a href="" id='project'><div></div><div></div></a>
+    </div>
+    
+</body>
+<script src="{% static 'script_projects.js' %}"></script>
+
+</html>

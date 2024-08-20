@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'vote.css' %}">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <button class="toggle-button">☰</button>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'projects' %}">Projects</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'cv' %}">Resume</a>
+        </div>
+    </div>
+    <div class="maincontent">
+        <div class="formpart">
+            <h2>Vote</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    {{ form.choice }}
+                </div>
+                <div class="form-group">
+                    {{ form.county }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="plotpart">
+            <div id="histogram"></div>
+        </div>
+        <div id="map"></div>
+    </div>
+    <div class="explaining">
+        <h2>Explanation</h2>
+        <p>This is a voting app that collects user input through a <b>form</b>, organizes the data using Django’s <b>models</b> and stores the votes in a <b>PostgreSQL database</b> hosted on <a href="https://railway.app/" target="_blank">Railway</a>.</p>
+        <p>Storing geometry data using <b>SQL</b> seems pretty harsh, and since it never changes I decided to store it as a <b>GeoJSON</b> on Github. Once I had both the GeoJSON and the collected data I had to use the cleaned county names as the common key that makes it possible to illustrate the data.</p>
+        <img src="{% static '/data/drawsql.png' %}">
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButton = document.querySelector('.toggle-button');
+            const navbarLinks = document.querySelector('.navbar-links');
+    
+            toggleButton.addEventListener('click', () => {
+                navbarLinks.classList.toggle('active');
+            });
+    
+            // Assuming 'plot_data' contains the JSON data of candidate counts passed from Django
+            const plotData = JSON.parse('{{ plot_data|escapejs }}');
+    
+            // Candidate colors
+            const candidateColors = {
+                "Klaus-Werner Iohannis": "#f7d900",
+                "Theodor Paleologu": "#33FF57",
+                "Ilie-Dan Barna": "#3357FF",
+                "Hunor Kelemen": "#0e8542",
+                "Vasilica-Viorica Dancilă": "#d52b22",
+                "Cătălin-Sorin Ivan": "#FFC300",
+                "Ninel Peia": "#FF5733",
+                "Sebastian-Constantin Popescu": "#33FF57",
+                "John-Ion Banu": "#3357FF",
+                "Mircea Diaconu": "#FF33A6",
+                "Bogdan-Dragoș-Aureliu Marian-Stanoevici": "#A633FF",
+                "Ramona-Ioana Bruynseels": "#FFC300",
+                "Viorel Cataramă": "#FF5733",
+                "Alexandru Cumpănașu": "#33FF57"
+            };
+    
+            // Set up SVG dimensions and margins for histogram
+            const margin = { top: 20, right: 20, bottom: 40, left: 90 };
+            const containerWidth = document.querySelector("#histogram").clientWidth;
+            const width = containerWidth - margin.left - margin.right;
+            const height = 500 - margin.top - margin.bottom;
+    
+            d3.select("#histogram").html(""); // Clear existing chart
+    
+            // Append SVG and group for the histogram
+            const svg = d3.select("#histogram")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+            // X and Y scales for histogram
+            const x = d3.scaleLinear()
+                .domain([0, d3.max(plotData, d => d.votes)])
+                .range([0, width]);
+    
+            const y = d3.scaleBand()
+                .domain(plotData.map(d => d.choice))
+                .range([0, height])
+                .padding(0.1);
+    
+            // Create the bars with colors
+            svg.selectAll("rect")
+                .data(plotData)
+                .enter()
+                .append("rect")
+                .attr("x", x(0))
+                .attr("y", d => y(d.choice))
+                .attr("width", d => x(d.votes))
+                .attr("height", y.bandwidth())
+                .attr("fill", d => candidateColors[d.choice] || "#ccc"); // Default color if no color defined
+    
+            // Append y-axis with last name labels
+            svg.append("g")
+                .call(d3.axisLeft(y).tickFormat(name => {
+                    const parts = name.split(' ');
+                    return parts[parts.length - 1];  // Return the last part of the name
+                }));
+    
+            // Append x-axis
+            const xAxis = svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x)
+                .ticks(5)  // Adjust the number of ticks as needed
+                .tickFormat(d3.format("~s"))  // Format the ticks as short numbers (e.g., 1k for 1000)
+            );
+    
+            // Add text labels inside or outside the bars based on space
+            svg.selectAll("text.label")
+                .data(plotData)
+                .enter()
+                .append("text")
+                .attr("class", "label")
+                .attr("x", d => {
+                    const xPos = x(d.votes);
+                    const labelWidth = 50;  // Estimate or calculate the text width if needed
+                    return xPos + (xPos > (width - labelWidth) ? -5 : 5);  // Move inside if close to the right edge
+                })
+                .attr("y", d => y(d.choice) + y.bandwidth() / 2 + 5)  // Center vertically within the bar
+                .attr("fill", d => {
+                    const xPos = x(d.votes);
+                    const labelWidth = 50;  // Estimate or calculate the text width if needed
+                    return xPos > (width - labelWidth) ? "white" : "black";  // White for inside, black for outside
+                })
+                .attr("text-anchor", d => {
+                    const xPos = x(d.votes);
+                    return xPos > (width - 50) ? "end" : "start";  // Align text depending on position
+                })
+                .text(d => d.votes);
+    
+            // Map code
+            
+            const mapWidth = document.querySelector("#map").clientWidth;
+            const mapHeight = 500;
+    
+            // Create SVG element for map
+            const mapSvg = d3.select("#map")
+                .append("svg")
+                .attr("width", mapWidth)
+                .attr("height", mapHeight)
+                .attr("class", "map");
+    
+            // Define projection and path generator for map
+            const projection = d3.geoMercator();
+    
+            // Define a path generator for map
+            const path = d3.geoPath().projection(projection);
+    
+            // Create a tooltip
+            const tooltip = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+                .style("visibility", "hidden")
+                .style("background", "#f9f9f9")
+                .style("padding", "5px")
+                .style("border", "1px solid #ccc")
+                .style("border-radius", "3px")
+                .style("box-shadow", "0 0 10px rgba(0, 0, 0, 0.5)")
+                .style("pointer-events", "none");
+    
+            // Load GeoJSON data for map
+            d3.json("https://raw.githubusercontent.com/moonspaish/simplified/main/county.geojson").then(function (geoData) {
+                // Load voting data for map
+                d3.json("/county-votes/").then(function (voteData) {
+                    // Draw map using GeoJSON data
+                    projection.fitSize([mapWidth, mapHeight], geoData);
+                    mapSvg.selectAll("path")
+                        .data(geoData.features)
+                        .enter()
+                        .append("path")
+                        .attr("d", path)
+                        .attr("fill", function(d) {
+                            const countyName = d.properties.cleaned_county;
+                            const winningCandidate = voteData[countyName];
+                            return candidateColors[winningCandidate] || "#ccc"; // Default color if no data
+                        })
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 0.5)
+                        .on("mouseover", function(event, d) {
+                            const countyName = d.properties.cleaned_county.replace(/\b\w/g, char => char.toUpperCase());
+
+                            
+                            tooltip.text(countyName)
+                                .style("visibility", "visible");
+    
+                            // Apply hover effect
+                            d3.select(this)
+                                .attr("fill", function(d) {
+                                    const countyName = d.properties.cleaned_county;
+                                    const winningCandidate = voteData[countyName];
+                                    const originalColor = candidateColors[winningCandidate] || "#ccc";
+                                    return d3.color(originalColor).darker(0.5);
+                                });
+                        })
+                        .on("mousemove", function(event) {
+                            tooltip.style("top", (event.pageY - 10) + "px")
+                                .style("left", (event.pageX + 10) + "px");
+                        })
+                        .on("mouseout", function(d) {
+                            tooltip.style("visibility", "hidden");
+    
+                            // Remove hover effect
+                            d3.select(this)
+                                .attr("fill", function(d) {
+                                    const countyName = d.properties.cleaned_county;
+                                    const winningCandidate = voteData[countyName];
+                                    return candidateColors[winningCandidate] || "#ccc"; 
+                                });
+                        });
+                }).catch(function (error) {
+                    console.error('Error loading vote data:', error);
+                });
+            }).catch(function (error) {
+                console.error('Error loading GeoJSON data:', error);
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

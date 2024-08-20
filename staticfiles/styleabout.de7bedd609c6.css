@@ -1,0 +1,150 @@
+body {
+    font-family: 'Inknut Antiqua', serif;
+    background-color: #f3f0e5;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px 10px 35px;
+    background-color: #f3f0e5;
+}
+
+.toggle-button {
+    display: none;
+    font-size: 2.5em;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #b13d3d;
+    margin-right: 20px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    font-size: 3em;
+    color: #b13d3d;
+    transition: color 0.3s;
+    margin: 20px;
+}
+
+.navbar-links a:nth-child(1) {
+    color: #81161C;
+}
+
+.navbar-links a:nth-child(2) {
+    color: #CC1D33;
+}
+
+.navbar-links a:nth-child(3) {
+    color: #c96a4d;
+}
+
+.navbar-links a:nth-child(4) {
+    color: #d68a4d;
+}
+
+.navbar-links a:hover {
+    color: #000;
+}
+
+.about {
+    padding: 10px 10% 10px 10%;
+
+}
+
+.about h1 {
+    font-size: 4em;
+    color: #CC1D33;
+}
+
+.about p {
+    font-size: 2em;
+
+}
+
+email {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #CC1D33;
+}
+
+skills {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #c96a4d;
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 1095px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .toggle-button {
+        display: block;
+    }
+
+    .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar-links a {
+        margin: 10px;
+        width: 100%;
+    }
+
+    .navbar-links.active {
+        display: flex;
+
+    }
+
+    .navbar-links.active a {
+        height: 1em;
+        font-size: 2em;
+    }
+
+    /* .cvjpg img {
+        width: 100vw;
+        padding: 0vh 0vw 0vh 0vw;
+    } */
+    .about {
+        padding: 5px 5% 5px 5%;
+
+    }
+
+    .about h1 {
+        padding-left: 5%;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        font-size: 3em;
+    }
+
+    .about p {
+        font-size: 1.5em;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+}
+
+/* @media (max-width: 1095px) {
+
+
+    .cvjpg img {
+        width: 100vw;
+        padding: 3vh 0vw 0vh 0vw;
+    }
+} */
