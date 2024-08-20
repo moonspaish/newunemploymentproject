@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const invatamantposticeal = filteredData.map(row => +row['invatamantposticeal']);
             const invatamantprofesional_artesimeserii = filteredData.map(row => +row['invatamantprofesional/artesimeserii']);
             const invatamantuniversitar = filteredData.map(row => +row['invatamantuniversitar']);
+            const ratasomajului = filteredData.map(row => +row['ratasomajului(%)']);
 
             const traces = [
                 { x: yearmonth, y: farastudii, name: 'Fară Studii', type: 'bar', marker: { color: '#ff7f0e' } },
@@ -122,75 +123,71 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             Plotly.newPlot('chart', traces, layout);
+
+            // Update the unemployment rate chart for the selected county
+            updateUnemploymentRateChart(yearmonth, ratasomajului);
         });
     }
 
     let width1 = document.querySelector("#unemploymentRateChart").clientWidth;
 
-    // Function to plot unemployment rate for all counties
-    function plotUnemploymentRate() {
-        const csvUrl = 'https://raw.githubusercontent.com/moonspaish/storingunemploymentdata/main/data_finished.csv';
+    // Function to update the unemployment rate chart
+    // Function to update the unemployment rate chart
+    function updateUnemploymentRateChart(yearmonth, ratasomajului) {
+        const settings = getWidthAndUpdateSettings();
 
-        Plotly.d3.csv(csvUrl, function (data) {
-            const settings = getWidthAndUpdateSettings();
+        const trace = {
+            x: yearmonth,
+            y: ratasomajului,
+            type: 'bar', // Changed to 'bar' for a standard bar chart
+            marker: {
+                color: '#17becf'
+            },
+            text: ratasomajului.map(rate => rate.toFixed(2) + '%'), // Display unemployment rate as a percentage
+            textposition: 'outside',
+            textfont: {
+                size: settings.fontSize
+            }
+        };
 
-            const countyNames = counties.map(county => county.charAt(0).toUpperCase() + county.slice(1));
-            const unemploymentRates = counties.map(county => {
-                const countyData = data.filter(row => row['judet'] === county);
-                return countyData.length ? +countyData[0]['ratasomajului(%)'] : 0;
-            });
-
-            const trace = {
-                x: countyNames,
-                y: unemploymentRates,
-                type: 'bar',
-                marker: {
-                    color: '#17becf'
+        const layout = {
+            width: width1,
+            height: settings.chartHeight, // Adjust height based on screen size
+            title: 'Unemployment Rate Over Time',
+            xaxis: {
+                title: {
+                    text: 'Year-Month',
+                    font: {
+                        size: settings.axisTitleFontSize
+                    }
                 },
-                text: unemploymentRates.map(rate => rate.toFixed(2) + '%'), // Display unemployment rate as a percentage
-                textposition: 'outside',
-                textfont: {
+                tickangle: -45,
+                automargin: true,
+                type: 'category', // Ensure it's treated as a category axis
+                tickfont: {
                     size: settings.fontSize
                 }
-            };
-
-            const layout = {
-                width: width1,
-                height: settings.chartHeight, // Adjust height based on screen size
-                title: 'Unemployment Rate by County',
-                xaxis: {
-                    title: {
-                        text: 'County',
-                        font: {
-                            size: settings.axisTitleFontSize
-                        }
-                    },
-                    tickangle: -45,
-                    automargin: true,
-                    tickfont: {
-                        size: settings.fontSize
+            },
+            yaxis: {
+                title: {
+                    text: 'Unemployment Rate (%)',
+                    font: {
+                        size: settings.axisTitleFontSize
                     }
                 },
-                yaxis: {
-                    title: {
-                        text: 'Unemployment Rate (%)',
-                        font: {
-                            size: settings.axisTitleFontSize
-                        }
-                    },
-                    tickfont: {
-                        size: settings.fontSize
-                    }
-                },
-                template: 'plotly_white',
-                plot_bgcolor: '#f3f0e5', // Background color of the plot area
-                paper_bgcolor: '#f3f0e5',
-                showlegend: settings.showLegend
-            };
+                tickfont: {
+                    size: settings.fontSize
+                }
+            },
+            template: 'plotly_white',
+            plot_bgcolor: '#f3f0e5', // Background color of the plot area
+            paper_bgcolor: '#f3f0e5',
+            showlegend: false
+        };
 
-            Plotly.newPlot('unemploymentRateChart', [trace], layout);
-        });
+        Plotly.newPlot('unemploymentRateChart', [trace], layout);
     }
+
 
     // Event listener for the select dropdown
     countySelect.addEventListener('change', function () {
@@ -200,12 +197,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Resize event listener to hide or show the legend and adjust settings based on window width
     window.addEventListener('resize', function () {
         loadDataAndPlot(countySelect.value);
-        plotUnemploymentRate();
     });
 
     // Initial load with the first county
     loadDataAndPlot(counties[0]);
-
-    // Plot the unemployment rate for all counties
-    plotUnemploymentRate();
 });
