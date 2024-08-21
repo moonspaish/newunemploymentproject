@@ -215,4 +215,46 @@ body {
         font-size: 3.5vw;
         margin-bottom: 100px;
     }
+
+    .explaining {
+        margin: 0;
+    }
+
+    .explaining p {
+        font-size: 5.3vw;
+        margin: 3vw 10vw;
+    }
+
+
+    .explaining h2 {
+        font-size: 5.7vw;
+        margin: 0 10vw;
+    }
+
+    .explaining img {
+        margin: 10vw 0;
+        margin-bottom: 30vw;
+    }
+}
+
+@media screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2) and (min-device-width: 320px) and (max-device-width: 667px) {
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn {
+        display: inline-block;
+        text-align: center;
+        margin: 0 auto;
+        /* This helps center block-level buttons */
+        padding: 10px 10px;
+        font-size: 18px;
+        height: 80px;
+        width: 80px;
+        line-height: normal;
+        border-radius: 25px;
+    }
 }

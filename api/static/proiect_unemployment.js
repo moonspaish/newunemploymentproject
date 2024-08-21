@@ -85,15 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     },
                     tickangle: -45,
-                    tickvals: yearmonth,
-                    ticktext: yearmonth,
                     automargin: true,
-                    tickmode: 'array',
-                    nticks: 50,
-                    showgrid: true,
-                    zeroline: false,
-                    type: 'category',
-                    range: [-0.5, yearmonth.length - 0.5],
+                    type: 'category', // Ensure it's treated as a category axis
                     tickfont: {
                         size: settings.fontSize
                     }
