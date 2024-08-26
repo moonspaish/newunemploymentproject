@@ -12,17 +12,21 @@ function drawMap({
     strokeWidth = 0,
     legendScale = 0.7
 }) {
+    const devicePixelRatio = window.devicePixelRatio || 1;
+
     const svg = d3.select(containerId)
         .append("svg")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", width * devicePixelRatio)  // Scale width based on device pixel ratio
+        .attr("height", height * devicePixelRatio)  // Scale height based on device pixel ratio
+        .style("width", `${width}px`)  // Maintain original width in CSS
+        .style("height", `${height}px`)  // Maintain original height in CSS
         .attr("class", "map");
 
     const projection = d3.geoMercator();
     const path = d3.geoPath().projection(projection);
 
     d3.json(geoJsonUrl).then(function (data) {
-        projection.fitSize([width, height], data);
+        projection.fitSize([width * devicePixelRatio, height * devicePixelRatio], data);
 
         svg.selectAll("path")
             .data(data.features)
@@ -36,16 +40,16 @@ function drawMap({
                 return colormaps[party] ? colormaps[party](percent) : 'gray';
             })
             .attr("stroke", strokeColor)
-            .attr("stroke-width", strokeWidth);
+            .attr("stroke-width", strokeWidth / devicePixelRatio);  // Adjust stroke width based on pixel ratio
 
-        const isMobile = width < 800; // Adjust this threshold as needed
+        const isMobile = width < 800;
         const legendGroup = svg.append("g")
             .attr("class", "legend-group")
             .attr("transform", isMobile ? `translate(0, ${height - 20}) scale(${legendScale})` : `translate(${width - 200}, 70) scale(${legendScale})`)
             .attr("text-anchor", "start");
 
-        const legendItemWidth = isMobile ? width / 1.95 : 150; // Calculate width for each item
-        const legendXOffset = isMobile ? legendItemWidth * 0.05 : 0; // Adjust the X offset for centering on mobile
+        const legendItemWidth = isMobile ? width / 1.95 : 150;
+        const legendXOffset = isMobile ? legendItemWidth * 0.05 : 0;
 
         Object.keys(colormaps).forEach((party, index) => {
             const colorScale = colormaps[party];
@@ -57,13 +61,13 @@ function drawMap({
                 .attr("transform", isMobile ? `translate(${index * legendItemWidth + legendXOffset}, 0)` : `translate(0, ${index * 30})`);
 
             legend.append("rect")
-                .attr("width", 20)
-                .attr("height", 20)
+                .attr("width", 20 * devicePixelRatio)  // Scale based on device pixel ratio
+                .attr("height", 20 * devicePixelRatio)
                 .attr("fill", secondToLastColor);
 
             legend.append("text")
-                .attr("x", 25) // Position text to the right of the rectangle
-                .attr("y", 15) // Center the text vertically relative to the rectangle
+                .attr("x", 25 * devicePixelRatio)  // Adjust for scaling
+                .attr("y", 15 * devicePixelRatio)
                 .attr("font-size", isMobile ? "11px" : "18px")
                 .text(party)
                 .attr("alignment-baseline", "middle");
@@ -72,6 +76,7 @@ function drawMap({
         console.log("Error loading GeoJSON data:", error);
     });
 }
+
 
 
 
