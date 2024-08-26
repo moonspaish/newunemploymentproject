@@ -41,7 +41,7 @@ function drawMap({
         const isMobile = width < 800; // Adjust this threshold as needed
         const legendGroup = svg.append("g")
             .attr("class", "legend-group")
-            .attr("transform", isMobile ? `translate(0, ${height - 50}) scale(${legendScale})` : `translate(${width - 200}, 70) scale(${legendScale})`)
+            .attr("transform", isMobile ? `translate(0, ${height - 30}) scale(${legendScale})` : `translate(${width - 200}, 70) scale(${legendScale})`)
             .attr("text-anchor", "start");
 
         const legendItemWidth = isMobile ? width / 1.95 : 150; // Calculate width for each item

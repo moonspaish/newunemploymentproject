@@ -45,7 +45,7 @@
     <div class="explaining">
         <h2>Explanation</h2>
         <p>This is a voting app that collects user input through a <b>form</b>, organizes the data using Django’s <b>models</b> and stores the votes in a <b>PostgreSQL database</b> hosted on <a href="https://railway.app/" target="_blank">Railway</a>.</p>
-        <p>Storing geometry data using <b>SQL</b> seems pretty harsh, and since it never changes I decided to store it as a <b>GeoJSON</b> on Github. Once I had both the GeoJSON and the collected data I had to use the cleaned county names as the common key that makes it possible to illustrate the data.</p>
+        <p>Storing geometry data using <b>SQL</b> seems pretty harsh, and since it never changes I decided to store it as a <b>GeoJSON</b> on Github. Only after I had both the GeoJSON and the collected data, I was able to use the cleaned county names as the common key that makes it possible to join and  illustrate the data.</p>
         <img src="{% static '/data/drawsql.png' %}">
     </div>
 
