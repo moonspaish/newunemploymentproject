@@ -459,7 +459,7 @@ body {
     }
 }
 
-@media screen and (max-width: 1095px) {
+@media screen and (max-width: 595px) {
     .responsive-div {
         margin: 100px 5vw 0 10vw;
         display: block;
@@ -475,4 +475,8 @@ body {
         color: #81161C;
         text-decoration: none;
     }
+}
+
+.map {
+    transform: scale(0.9);
 }
