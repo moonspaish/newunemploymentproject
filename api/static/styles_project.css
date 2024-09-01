@@ -107,6 +107,7 @@ body {
     overflow: hidden;
     /* Optional: Adjust text size */
 
+
 }
 
 #project div:nth-child(1) {
@@ -121,7 +122,7 @@ body {
 }
 
 #project div:nth-child(2) p {
-    margin: 0;
+    margin: 10px;
     font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
     font-size: 1.2em;
@@ -163,13 +164,7 @@ img {
     }
 }
 
-@media (max-width: 720px) {
-    #project {
-        flex: 1 1 100%;
-        /* One item per row */
-        max-width: 100%;
-    }
-}
+
 
 /* .projects {
     display: flex;
@@ -262,5 +257,28 @@ img {
     #project {
         min-width: 80vw;
         min-height: 60vw;
+
     }
+
+    #project div:nth-child(2) p {
+        margin: 10px;
+        font-size: 20px;
+
+    }
+
+}
+
+@media (max-width: 720px) {
+    #project {
+        flex: 1 1 100%;
+        /* One item per row */
+        max-width: 100%;
+    }
+
+    #project div:nth-child(2) p {
+        margin: 10px;
+        font-size: 18px;
+        top: 0%;
+    }
+
 }
